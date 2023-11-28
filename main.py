@@ -37,6 +37,7 @@ with app.app_context():
         status = db.Column(db.String(100))
         videos = db.relationship('Videos', back_populates='teacher')
 
+
         def __repr__(self):
             return f"<Teacher {self.name}>"
 
@@ -98,9 +99,6 @@ def index():
     teachers=Teacher.query.all()
     return render_template("index.html",courses=courses,teachers=teachers)
 
-@app.route("/detail")
-def detail():
-    return render_template("detail.html")
 
 @app.route("/about")
 def about():
@@ -136,6 +134,7 @@ def login():
         password = request.form.get("your_pass")
         role_user = "user"
         role_teacher = "teacher"
+        role_admin = "admin"
         users = User.query.all()
         for user in users:
             if phone == user.phone and password == user.password and role_user == user.role:
@@ -151,6 +150,13 @@ def login():
                 session['user_name'] = user.name
                 session['user_phone'] = user.phone
                 return redirect("/teacherprofile")
+
+            if phone == user.phone and password == user.password and role_admin == user.role:
+                # Assuming 'id', 'name', and 'phone' are attributes of your User model
+                session['user_id'] = user.id
+                session['user_name'] = user.name
+                session['user_phone'] = user.phone
+                return redirect("/admin_dashboard")
 
         return redirect("/register")
     return render_template("login.html")
@@ -185,21 +191,21 @@ def course():
 
     return render_template("course.html", all_courses=all_courses)
 
-# @app.route('/detail/<int:id>')
-# def detail(id):
-#     courses=Courses.query.filter_by(id=id).first()
-#     print (courses)
-#     all_videos=Videos.query.all()
-#     videos=[]
-#     if courses:
-#         course_name = courses.course_name
-#         teacher_name=courses.teacher_name
-#         price = courses.course_price
-#         for i in all_videos:
-#             if i.course_name==course_name and i.teacher_name==teacher_name:
-#                 videos.append(i)
-#
-#     return render_template("detail.html",videos=videos,current_name=courses.course_name)
+@app.route('/detail/<int:id>')
+def detail(id):
+    courses=Courses.query.filter_by(id=id).first()
+    # print (courses)
+    all_videos=Videos.query.all()
+    videos=[]
+    if courses:
+        course_name = courses.course_name
+        teacher_name=courses.teacher_name
+        price = courses.course_price
+        for i in all_videos:
+            if i.course_name==course_name and i.teacher_name==teacher_name:
+                videos.append(i)
+
+    return render_template("detail.html",videos=videos,current_name=courses.course_name)
 
 @app.route('/video/<int:id>')
 def video_detail(id):
