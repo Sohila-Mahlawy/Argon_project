@@ -41,13 +41,6 @@ with app.app_context():
         def __repr__(self):
             return f"<Teacher {self.name}>"
 
-    class Subscription(UserMixin, db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        user_name = db.Column(db.String(1000))
-        user_password = db.Column(db.String(1000))
-        course_name = db.Column(db.String(1000))
-        teacher_name = db.Column(db.String(1000))
-        date = db.Column(db.String(100))
 
     class Courses(db.Model):
         id = db.Column(db.Integer, primary_key=True)
@@ -76,19 +69,15 @@ with app.app_context():
             return f"<Video {self.name}>"
 
 
-    # Define the Question model
-    class Question(db.Model):
+    class Paid_courses(db.Model):
         id = db.Column(db.Integer, primary_key=True)
-        text = db.Column(db.String(255), nullable=False)
-        answers = db.relationship('Answer', backref='question', lazy=True)
-
-
-    class Answer(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        text = db.Column(db.String(255), nullable=False)
-        is_correct = db.Column(db.Boolean, default=False)
-        question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
-
+        course_name = db.Column(db.String(1000))
+        teacher_name = db.Column(db.String(100))
+        teacher_phone = db.Column(db.String(100))
+        user_name = db.Column(db.String(100))
+        user_phone = db.Column(db.String(100))
+        user_id = db.Column(db.String(100))
+        course_id = db.Column(db.String(100))
 
     db.create_all()
 class MyModelView(ModelView):
@@ -100,12 +89,16 @@ admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Teacher, db.session))
 admin.add_view(MyModelView(Courses, db.session))
 admin.add_view(MyModelView(Videos, db.session))
-admin.add_view(MyModelView(Subscription, db.session))
+admin.add_view(MyModelView(Paid_courses, db.session))
+
+@app.route("/create_quiz", methods=["POST","GET"])
+def create_quiz():
+    return render_template("create_quiz.html")
 
 @app.route("/")
 def index():
-    courses=Courses.query.all()
-    teachers=Teacher.query.all()
+    courses = Courses.query.all()
+    teachers = Teacher.query.all()
     return render_template("index.html",courses=courses,teachers=teachers)
 
 
@@ -193,28 +186,58 @@ def teacher_profile():
 
 
 
+@app.route("/paid")
+def paid():
+    # Retrieve user information from the session
+    user_id = session.get('user_id')
+    user_name = session.get('user_name')
+    user_phone = session.get('user_phone')
+    paid_courses=Paid_courses.query.all()
+    my_courses=[]
+    for course in paid_courses:
+        if   user_name == course.user_name and user_phone==course.user_phone :
+            my_courses.append(course)
+
+    # Use the user information in your template
+    return render_template("paid_courses.html", user_id=user_id, user_name=user_name, user_phone=user_phone,paid_courses=my_courses)
 
 @app.route("/course")
 def course():
-    all_courses = Courses.query.filter_by(status='approved').all()
+    # Retrieve user information from the session
+    user_id = session.get('user_id')
+    user_name = session.get('user_name')
+    user_phone = session.get('user_phone')
+    all_courses = Courses.query.all()
 
-    return render_template("course.html", all_courses=all_courses)
+    # Pass user information and courses to the template
+    return render_template("course.html", user_id=user_id, user_name=user_name, user_phone=user_phone, all_courses=all_courses)
+
 
 @app.route('/detail/<int:id>')
 def detail(id):
-    courses=Courses.query.filter_by(id=id).first()
-    # print (courses)
-    all_videos=Videos.query.all()
-    videos=[]
-    if courses:
-        course_name = courses.course_name
-        teacher_name=courses.teacher_name
-        price = courses.course_price
-        for i in all_videos:
-            if i.course_name==course_name and i.teacher_name==teacher_name:
-                videos.append(i)
+    course = Courses.query.filter_by(id=id).first()
+    course_id = course.id
+    course_name = course.course_name
+    user_id = session.get('user_id')
+    user_name = session.get('user_name')
+    user_phone = session.get('user_phone')
+    paid_courses = Paid_courses.query.all()
+    all_videos = Videos.query.all()
+    videos = []
 
-    return render_template("detail.html",videos=videos,current_name=courses.course_name)
+    if course:
+        course_name = course.course_name
+        teacher_name = course.teacher_name
+        price = course.course_price
+        for c in paid_courses:
+            if c.course_name == course_name:
+                for video in all_videos:
+                    if video.course_name == course_name and video.teacher_name == teacher_name:
+                            videos.append(video)
+
+    return render_template("detail.html", videos=videos, current_name=course.course_name, user_id=user_id, user_name=user_name, user_phone=user_phone, course=course)
+
+
 
 @app.route('/video/<int:id>')
 def video_detail(id):
@@ -226,7 +249,49 @@ def video_detail(id):
 
     return render_template("video_detail.html", videos=video, name=name,description=description,video_file=video_file)
 
+@app.route("/buy_course/<int:id>", methods=["GET", "POST"])
+def buy_course(id):
+    if request.method == "GET":
+        # Assuming 'id' is a parameter passed to the function
+        course = Courses.query.filter_by(id=id).first()
 
+        # Check if the course exists
+        if course:
+            # Extract user information from the session
+            user_id = session.get('user_id')
+            user_name = session.get('user_name')
+            user_phone = session.get('user_phone')
+
+            # Extract course details
+            course_name = course.course_name
+            teacher_name = course.teacher_name
+            teacher_phone = course.teacher_phone
+            course_id = course.id
+
+            # Print the information (correct indentation)
+            print(f"User ID: {user_id}")
+            print(f"User Name: {user_name}")
+            print(f"User Phone: {user_phone}")
+            print(f"Course ID: {course_id}")
+            print(f"Course Name: {course_name}")
+            print(f"Teacher Name: {teacher_name}")
+            print(f"Teacher Phone: {teacher_phone}")
+
+            # Create a new record in the Paid_courses table
+            buy = Paid_courses(
+                course_name=course_name,
+                teacher_name=teacher_name,
+                teacher_phone=teacher_phone,
+                course_id=id,
+                user_id=user_id,
+                user_name=user_name,
+                user_phone=user_phone,
+            )
+            db.session.add(buy)
+            db.session.commit()
+
+            # Redirect to a success page or do something else
+            return render_template("payment_success.html", user_name=user_name, course_name=course_name)
 
 
 @app.route("/admin_dashboard")
@@ -236,7 +301,6 @@ def admin_dashboard():
     pending_courses = Courses.query.filter_by(status='pending').all()
 
     return render_template("admin_dashboard.html", pending_requests=pending_requests, pending_courses=pending_courses)
-
 
 @app.route("/maketeacher", methods=["GET", "POST"])
 def maketeacher():
@@ -310,7 +374,7 @@ def createcourse():
             teacher_phone=teacher_phone,
             course_price=course_price,
             course_sample=course_sample,
-            status = 'pending'
+            status='pending'
         )
         db.session.add(new_course)
         db.session.commit()
@@ -341,59 +405,15 @@ def course_detail(course_id):
 
     return render_template("video_detail.html", course_name=course_name, teacher_name=teacher_name,course_sample=course_sample)
 
-
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
 
+@app.route("/logout")
+def logout():
 
-# # Sample data
-# question1 = Question(text='What is the capital of France?')
-# answer1 = Answer(text='Berlin', is_correct=False, question=question1)
-# answer2 = Answer(text='Paris', is_correct=True, question=question1)
-# answer3 = Answer(text='Madrid', is_correct=False, question=question1)
-#
-# question2 = Question(text='Which programming language is this example written in?')
-# answer4 = Answer(text='Python', is_correct=True, question=question2)
-# answer5 = Answer(text='Java', is_correct=False, question=question2)
-# answer6 = Answer(text='C++', is_correct=False, question=question2)
-#
-# db.session.add_all([question1, answer1, answer2, answer3, question2, answer4, answer5, answer6])
-# db.session.commit()
-@app.route('/')
-def quiz():
-    questions = Question.query.all()
-    return render_template('quiz.html', questions=questions)
+    session.clear()
+    return 'Logged out successfully'
 
-# Route to process quiz submissions
-@app.route('/submit_quiz', methods=['POST'])
-def submit_quiz():
-    score = 0
-    questions = Question.query.all()
-
-    for question in questions:
-        user_answer_id = int(request.form.get(f'question_{question.id}'))
-        user_answer = Answer.query.get(user_answer_id)
-
-        if user_answer and user_answer.is_correct:
-            score += 1
-
-    return render_template('result.html', score=score)
-
-@app.route("/billing")
-def billing():
-    courses = Courses.query.all()
-    all_courses = []
-    for course in courses:
-        if course.status == "approved":
-            all_courses.append(course)
-    subscriptions = Subscription.query.all()
-    my_courses = []
-    for subscription in subscriptions:
-        if subscription.user_name == current_user.name and subscription.user_password == current_user.password:
-            my = subscription.course_name
-            my_courses.append(my)
-    return render_template("billing.html", all_courses=all_courses, my_courses=my_courses)
-
-if __name__=="__main__":
+if __name__ == "__main__":
     app.run(debug=True)

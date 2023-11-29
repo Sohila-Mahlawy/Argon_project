@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Edukate - Online Education Website Template</title>
+    <title>Argon - Online Education Website Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -63,21 +63,31 @@
     <!-- Navbar Start -->
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
-            <a href="/" class="navbar-brand ml-lg-3">
-                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Argoun</h1>
+            <a href="index.html" class="navbar-brand ml-lg-3">
+                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>ARGON</h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mx-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-
-
+                    <a href="/" class="nav-item nav-link active">Home</a>
+                    <a href="/login" class="nav-item nav-link">Login</a>
+                    <a href="/register" class="nav-item nav-link">Register</a>
+                    <a href="/about" class="nav-item nav-link">About</a>
+                    <a href="/course" class="nav-item nav-link">Courses</a>
+                    <div class="nav-item dropdown">
+                        <a href="/" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="/detail" class="dropdown-item">Course Detail</a>
+                            <a href="/feature" class="dropdown-item">Our Features</a>
+                            <a href="/team" class="dropdown-item">Instructors</a>
+                            <a href="/testimonial" class="dropdown-item">Testimonial</a>
+                        </div>
+                    </div>
                     <a href="/contact" class="nav-item nav-link">Contact</a>
                 </div>
-                <a href="/register" class="btn btn-primary py-2 px-4 d-none d-lg-block">Register</a>
-                <a href="/login" class="btn btn-primary py-2 px-4 d-none d-lg-block">login</a>
+<!--                <a href="/" class="btn btn-primary py-2 px-4 d-none d-lg-block">Join Us</a>-->
             </div>
         </nav>
     </div>
@@ -122,7 +132,7 @@
             <span><i class="fa fa-star mr-2"></i>4.5 <small>(250)</small></span>
           </div>
           <div class="text-center mt-3">
-            <a class="btn btn-primary" href="detail.html">Course Detail</a>
+            <a class="btn btn-primary" href="/detail">Course Detail</a>
           </div>
         </div>
       </div>
@@ -133,7 +143,15 @@
     {% endif %}
   {% endfor %}
 </div>
-
+        </div>
+        <div class="row justify-content-center bg-image mx-0 mb-5">
+            <div class="col-lg-6 py-5">
+                <div class="bg-white p-5 my-5">
+                    <h1 class="text-center mb-4">30% Off For New Students</h1>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Courses End -->
 
 
@@ -141,8 +159,8 @@
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="section-title text-center position-relative mb-5">
-                <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Instructors</h6>
-                <h1 class="display-4">Meet Our Instructors</h1>
+                <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Teachers</h6>
+                <h1 class="display-4">Meet Our Teachers</h1>
             </div>
             <div class="owl-carousel team-carousel position-relative" style="padding: 0 30px;">
             <div class="row">
@@ -157,7 +175,7 @@
             <span><i class="fa fa-star mr-2"></i>4.5 <small>(250)</small></span>
           </div>
           <div class="text-center mt-3">
-            <a class="btn btn-primary" href="detail.html">Course Detail</a>
+            <a class="btn btn-primary" href="/view_teacher_sample/{{ teacher.id }}"> Detail</a>
           </div>
         </div>
       </div>
@@ -218,7 +236,70 @@
 
 
     <!-- Contact Start -->
-
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <div class="bg-light d-flex flex-column justify-content-center px-5" style="height: 450px;">
+                        <div class="d-flex align-items-center mb-5">
+                            <div class="btn-icon bg-primary mr-4">
+                                <i class="fa fa-2x fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div class="mt-n1">
+                                <h4>Our Location</h4>
+                                <p class="m-0">123 Street, New York, USA</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-5">
+                            <div class="btn-icon bg-secondary mr-4">
+                                <i class="fa fa-2x fa-phone-alt text-white"></i>
+                            </div>
+                            <div class="mt-n1">
+                                <h4>Call Us</h4>
+                                <p class="m-0">+012 345 6789</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="btn-icon bg-warning mr-4">
+                                <i class="fa fa-2x fa-envelope text-white"></i>
+                            </div>
+                            <div class="mt-n1">
+                                <h4>Email Us</h4>
+                                <p class="m-0">info@example.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="section-title position-relative mb-4">
+                        <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Need Help?</h6>
+                        <h1 class="display-4">Send Us A Message</h1>
+                    </div>
+                    <div class="contact-form">
+                        <form>
+                            <div class="row">
+                                <div class="col-6 form-group">
+                                    <input type="text" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Your Name" required="required">
+                                </div>
+                                <div class="col-6 form-group">
+                                    <input type="email" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Your Email" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Subject" required="required">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control border-top-0 border-right-0 border-left-0 p-0" rows="5" placeholder="Message" required="required"></textarea>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary py-3 px-5" type="submit">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Contact End -->
 
 
