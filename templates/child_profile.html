@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../static/img/favicon.png">
   <title>
-    Profile
+Child's Profile
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -220,7 +220,7 @@
 </ul>
           <ul class="navbar-nav justify-content-end">
     <li class="nav-item d-flex align-items-center">
-        <a class="btn btn-outline-white btn-lg mb-0 me-3" target="_blank" href="/add_child">ADD CHILD</a>
+        <a class="btn btn-outline-white btn-lg mb-0 me-3" target="_blank" href="/add_child/{{ user_id }}">ADD CHILD</a>
     </li>
 </ul>
 
@@ -270,11 +270,7 @@
               <ul class="list-group">
                 <ul class="list-group">
     <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> {{ user_name }}</li>
-    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> {{ user_phone }}</li>
-    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">type:</strong> USER</li>
-                  {% for child in my_children %}
-                  <a href="/child_profile/{{ child.id }}"><button type="button">{{ child.name }}</button></a>
-                  {% endfor %}
+    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">type:</strong> Student</li>
     <!-- Add more user information as needed -->
 </ul>
 

@@ -29,6 +29,11 @@ with app.app_context():
         role = db.Column(db.String(1000), default="user")
         courses = db.relationship('Courses', secondary=user_course_association, back_populates='users')
 
+    class Students(UserMixin, db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        name = db.Column(db.String(1000))
+        parent_name = db.Column(db.String(1000))
+
     class Teacher(UserMixin, db.Model):
         id = db.Column(db.Integer, primary_key=True)
         name = db.Column(db.String(1000))
@@ -86,6 +91,7 @@ class MyModelView(ModelView):
 
 admin = Admin(app)
 admin.add_view(MyModelView(User, db.session))
+admin.add_view(MyModelView(Students, db.session))
 admin.add_view(MyModelView(Teacher, db.session))
 admin.add_view(MyModelView(Courses, db.session))
 admin.add_view(MyModelView(Videos, db.session))
@@ -114,10 +120,10 @@ def feature():
 @app.route("/register", methods=["POST","GET"])
 def register():
     if request.method == "POST":
-        phone=request.form.get("phone")
-        name=request.form.get("name")
-        password=request.form.get("password")
-        new_user=User(
+        phone = request.form.get("phone")
+        name = request.form.get("name")
+        password = request.form.get("password")
+        new_user = User(
             name=name,
             phone=phone,
             password=password
@@ -170,9 +176,14 @@ def profile():
     user_id = session.get('user_id')
     user_name = session.get('user_name')
     user_phone = session.get('user_phone')
+    students = Students.query.all()
+    my_children = []
+    for student in students:
+        if student.parent_name == user_name:
+            my_children.append(student)
 
     # Use the user information in your template
-    return render_template("profile.html", user_id=user_id, user_name=user_name, user_phone=user_phone)
+    return render_template("profile.html", user_id=user_id, user_name=user_name, user_phone=user_phone, my_children=my_children)
 
 @app.route("/teacherprofile")
 def teacher_profile():
@@ -414,6 +425,28 @@ def logout():
 
     session.clear()
     return 'Logged out successfully'
+
+@app.route("/add_child", methods=["GET","POST"])
+def add_child():
+    if request.method == "POST":
+        child_name = request.form.get("child_name")
+        phone = request.form.get("phone")
+        parent = User.query.filter_by(phone=phone).first()
+        parent_name=parent.name
+        new_student=Students(
+            parent_name=parent_name,
+            name=child_name
+        )
+        db.session.add(new_student)
+        db.session.commit()
+        return redirect("/profile")
+    return render_template("add_child.html")
+
+@app.route("/child_profile/<int:id>")
+def child_profile(id):
+    child = Students.query.filter_by(id=id).first()
+    user_name = child.name
+    return render_template("child_profile.html", user_name=user_name)
 
 if __name__ == "__main__":
     app.run(debug=True)
