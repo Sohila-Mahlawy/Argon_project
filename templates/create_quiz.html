@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Quiz</title>
+  <style>
+    fieldset.question {
+      margin-bottom: 20px;
+    }
+
+    .answer {
+      margin-bottom: 10px;
+    }
+  </style>
+  <script>
+// Function to add a new question
+let questionIndex = 1;
+
+function addQuestion() {
+    var questionsContainer = document.getElementById("questions-container");
+
+    // Create question fieldset
+    var questionFieldset = document.createElement("fieldset");
+    questionFieldset.className = "question";
+    questionFieldset.setAttribute("role", "group");
+
+    // Create question input
+    var questionInput = document.createElement("input");
+    questionInput.type = "text";
+    questionInput.name = "question[]";
+    questionInput.placeholder = "Enter your question " + questionIndex;
+    questionInput.required = true;
+
+    // Create answer inputs and select correct answer
+    for (var i = 1; i <= 4; i++) {
+        var answerDiv = document.createElement("div");
+        answerDiv.className = "answer";
+
+        var answerInput = document.createElement("input");
+        answerInput.type = "text";
+        answerInput.name = "answer[]";
+        answerInput.placeholder = "Enter answer " + i;
+
+        var correctAnswerInput = document.createElement("input");
+        correctAnswerInput.type = "radio";
+        correctAnswerInput.name = "correct_answer[" + questionIndex + "][" + i + "]";
+        correctAnswerInput.value = i;
+
+        var correctAnswerLabel = document.createElement("label");
+        correctAnswerLabel.innerHTML = "Correct Answer";
+        correctAnswerLabel.appendChild(correctAnswerInput);
+
+        // Append answer inputs to answer div
+        answerDiv.appendChild(answerInput);
+        answerDiv.appendChild(correctAnswerLabel);
+
+        // Append answer div to question fieldset
+        questionFieldset.appendChild(answerDiv);
+    }
+
+    // Append question input and answer fieldset to questions container
+    questionsContainer.appendChild(questionInput);
+    questionsContainer.appendChild(questionFieldset);
+
+    // Increment the question index
+    questionIndex++;
+}
+  </script>
+</head>
+<body>
+  <h1>Welcome to the Quiz!</h1>
+
+  <form action="/submit_quiz" method="post">
+    <div id="questions-container">
+      <div class="question">
+        <input type="text" name="question[]" placeholder="Enter your question 1" required>
+
+        <div class="answer">
+          <input type="text" name="answer[]" placeholder="Enter answer 1" required>
+          <label><input type="radio" name="correct_answer[1]" value="1"> Correct Answer</label>
+        </div>
+
+        <div class="answer">
+          <input type="text" name="answer[]" placeholder="Enter answer 2" required>
+          <label><input type="radio" name="correct_answer[1]" value="2"> Correct Answer</label>
+        </div>
+
+        <div class="answer">
+          <input type="text" name="answer[]" placeholder="Enter answer 3" required>
+          <label><input type="radio" name="correct_answer[1]" value="3"> Correct Answer</label>
+        </div>
+
+        <div class="answer">
+          <input type="text" name="answer[]" placeholder="Enter answer 4" required>
+          <label><input type="radio" name="correct_answer[1]" value="4"> Correct Answer</label>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" onclick="addQuestion()">Add Another Question</button>
+    <button type="submit">Submit Quiz</button>
+  </form>
+</body>
+</html>

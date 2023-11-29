@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buy Course</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the buy button
+        const buyButton = document.getElementById('buyButton');
+
+        // Add a click event listener to the button
+        buyButton.addEventListener('click', function () {
+            // Get the user and course information
+            const user_id = '{{ user_id }}';
+            const user_name = '{{ user_name }}';
+            const user_phone = '{{ user_phone }}';
+            const course_id = '{{ course.id }}';  // Replace this with the actual course ID
+            const course_name = '{{ course.course_name }}';  // Replace this with the actual course name
+
+            // Create an object with user and course information
+            const data = {
+                user_id: user_id,
+                user_name: user_name,
+                user_phone: user_phone,
+                course_id: course_id,
+                course_name: course_name
+            };
+
+            // Make an AJAX request to your server
+            fetch('/buy_course', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Payment successful:', result);
+                // You can handle the response here (e.g., show a success message)
+            })
+            .catch(error => {
+                console.error('Error during payment:', error);
+                // Handle the error (e.g., show an error message)
+            });
+        });
+    });
+</script>

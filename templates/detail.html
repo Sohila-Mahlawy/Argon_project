@@ -32,7 +32,7 @@
     <!-- Navbar Start -->
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
-            <a href="index.html" class="navbar-brand ml-lg-3">
+            <a href="/" class="navbar-brand ml-lg-3">
                 <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Edukate</h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -44,11 +44,83 @@
 
                     <a href="/contact" class="nav-item nav-link">Contact</a>
                 </div>
-                <a href="" class="btn btn-primary py-2 px-4 d-none d-lg-block">Join Us</a>
+                <a href="{{ url_for('buy_course', id=course.id) }}" class="btn btn-primary py-2 px-4 d-none d-lg-block">buy course</a>
             </div>
         </nav>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the buy button
+        const buyButton = document.getElementById('buyButton');
+
+        // Add a click event listener to the button
+        buyButton.addEventListener('click', function () {
+            // Get the user and course information
+            const user_id = '{{ user_id }}';
+            const user_name = '{{ user_name }}';
+            const user_phone = '{{ user_phone }}';
+            const course_id = '{{ course_id }}';  // Replace this with the actual course ID
+            const course_name = '{{ course_name }}';  // Replace this with the actual course name
+
+            // Create an object with user and course information
+            const data = {
+                user_id: user_id,
+                user_name: user_name,
+                user_phone: user_phone,
+                course_id: course_id,
+                course_name: course_name
+            };
+
+            // Make an AJAX request to your server
+            fetch('/buy_course', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Payment successful:', result);
+                // You can handle the response here (e.g., show a success message)
+            })
+            .catch(error => {
+                console.error('Error during payment:', error);
+                // Handle the error (e.g., show an error message)
+            });
+        });
+    });
+</script>
     <!-- Navbar End -->
+<!-- User Info Box -->
+<div class="container-fluid bg-light py-2">
+    <div class="container">
+        <div id="userInfoBox" class="text-center">
+            <!-- User name, ID, and phone will be dynamically inserted here -->
+        </div>
+    </div>
+</div>
+<!-- End User Info Box -->
+
+<script>
+    // Example JavaScript to update user information in the box
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the user information from the server-side rendering
+          // Use the template variables here
+        const user_name = '{{ user_name }}';
+        const user_phone = '{{ user_phone }}';
+
+        // Get the userInfoBox element
+        const userInfoBox = document.getElementById('userInfoBox');
+
+        // Update the content of userInfoBox
+        userInfoBox.innerHTML = `
+
+            <p>User Name: ${user_name}</p>
+            <p>User Phone: ${user_phone}</p>
+        `;
+    });
+</script>
 
 
 

@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
-app=Flask(__name__)
+app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -41,6 +41,13 @@ with app.app_context():
         def __repr__(self):
             return f"<Teacher {self.name}>"
 
+    class Subscription(UserMixin, db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        user_name = db.Column(db.String(1000))
+        user_password = db.Column(db.String(1000))
+        course_name = db.Column(db.String(1000))
+        teacher_name = db.Column(db.String(1000))
+        date = db.Column(db.String(100))
 
     class Courses(db.Model):
         id = db.Column(db.Integer, primary_key=True)
@@ -93,6 +100,8 @@ admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Teacher, db.session))
 admin.add_view(MyModelView(Courses, db.session))
 admin.add_view(MyModelView(Videos, db.session))
+admin.add_view(MyModelView(Subscription, db.session))
+
 @app.route("/")
 def index():
     courses=Courses.query.all()
@@ -241,17 +250,19 @@ def maketeacher():
                     name=user.name,
                     phone=user.phone,
                     teacher_sample= teacher_sample,
-                    status='pending' ,
+                    status='pending'
 
                 )
                 db.session.add(new_teacher)
                 db.session.commit()
 
-                return redirect("/admin_dashboard")
+                return render_template("pending_accounts.html", user=user)
 
         return 'User not found'
 
     return render_template("maketeacher.html")
+
+
 
 @app.route("/approve_teacher_request/<int:request_id>")
 def approve_teacher_request(request_id):
@@ -369,7 +380,20 @@ def submit_quiz():
 
     return render_template('result.html', score=score)
 
-
+@app.route("/billing")
+def billing():
+    courses = Courses.query.all()
+    all_courses = []
+    for course in courses:
+        if course.status == "approved":
+            all_courses.append(course)
+    subscriptions = Subscription.query.all()
+    my_courses = []
+    for subscription in subscriptions:
+        if subscription.user_name == current_user.name and subscription.user_password == current_user.password:
+            my = subscription.course_name
+            my_courses.append(my)
+    return render_template("billing.html", all_courses=all_courses, my_courses=my_courses)
 
 if __name__=="__main__":
     app.run(debug=True)
