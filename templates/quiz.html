@@ -1,22 +1,20 @@
+<!-- quiz.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
 </head>
 <body>
-    <form action="{{ url_for('submit_quiz') }}" method="post">
+
+
+   <form action="/quiz" method="POST">
         {% for question in questions %}
-            <fieldset>
-                <legend>{{ question.text }}</legend>
-                {% for answer in question.answers %}
-                    <label>
-                        <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}">
-                        {{ answer.text }}
-                    </label><br>
-                {% endfor %}
-            </fieldset>
+            <h3>{{ question.question_text }}</h3>
+            <p>Course: {{ question.course_name }}</p>
+            {% for answer in question.answers %}
+                <input type="checkbox" id="{{ answer.id }}" name="{{ answer.id }}">
+                <label for="{{ answer.id }}">{{ answer.answer_text }}</label>
+            {% endfor %}
         {% endfor %}
         <button type="submit">Submit Quiz</button>
     </form>

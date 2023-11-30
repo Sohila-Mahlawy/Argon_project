@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Display course details --><!-- Display course details -->
+<h2>{{ course.course_name }}</h2>
+<p>Teacher: {{ course.teacher_name }}</p>
+
+<!-- Button to prompt for child's name -->
+<button id="buyCourseButton" class="btn btn-primary">ch Course</button>
+
+<!-- Hidden form to capture child's name -->
+<form id="buyCourseForm" action="{{ url_for('buy_child_course', id=course.id) }}" method="post">
+    <input type="text" name="child_name" id="childNameInput" required>
+    <button type="submit" class="btn btn-primary">cchh Course</button>
+</form>
+
+<!-- JavaScript to handle the click event -->
+<script>
+document.getElementById("buyCourseButton").addEventListener("click", function() {
+    // Use a JavaScript prompt to get the child's name
+    var childName = prompt("Enter child's name:");
+
+    // If the user entered a name, update the form input
+    if (childName !== null) {
+        document.getElementById("childNameInput").value = childName;
+        // Submit the form
+        document.getElementById("buyCourseForm").submit();
+    }
+});
+</script>
+
+
+</body>
+</html>

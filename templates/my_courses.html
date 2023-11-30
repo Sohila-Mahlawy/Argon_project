@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Courses</title>
+</head>
+<body>
+{% for course in my_courses %}
+<a href="/detail/{{ course.id }}"><button type="button">{{ course.course_name }}</button></a>
+{% endfor %}
+</body>
+</html>
