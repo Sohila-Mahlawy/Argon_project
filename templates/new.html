@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Navigation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #course-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .course {
+            width: 100%;
+            max-width: 300px;
+            padding: 20px;
+            margin: 0 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .course img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        #prevBtn, #nextBtn {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+            background-color: #333;
+        }
+
+        #nextBtn {
+            right: 0;
+        }
+
+        #prevBtn:hover, #nextBtn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="course-container">
+        <div class="course">
+            <img class="img-fluid" src="../static/img/courses-1.jpg" alt="">
+            <p>Course 1 Content</p>
+        </div>
+        <div class="course">
+            <img class="img-fluid" src="../static/img/courses-2.jpg" alt="">
+            <p>Course 2 Content</p>
+        </div>
+        <div class="course">
+            <img class="img-fluid" src="../static/img/courses-3.jpg" alt="">
+            <p>Course 3 Content</p>
+        </div>
+        <div class="course">
+            <img class="img-fluid" src="../static/img/courses-4.jpg" alt="">
+            <p>Course 4 Content</p>
+        </div>
+        <div class="course">
+            <img class="img-fluid" src="../static/img/courses-5.jpg" alt="">
+            <p>Course 5 Content</p>
+        </div>
+        <div class="course">
+            <img class="img-fluid" src="../static/img/courses-6.jpg" alt="">
+            <p>Course 6 Content</p>
+        </div>
+        <div class="course">
+            <img class="img-fluid" src="../static/img/courses-7.jpg" alt="">
+            <p>Course 7 Content</p>
+        </div>
+        <div class="course">
+            <img class="img-fluid" src="../static/img/courses-8.jpg" alt="">
+            <p>Course 8 Content</p>
+        </div>
+        <!-- Add more courses as needed -->
+    </div>
+    <button id="prevBtn" onclick="prevCourse()">❮ Previous</button>
+    <button id="nextBtn" onclick="nextCourse()">Next ❯</button>
+</div>
+
+<script>
+    let currentIndex = 0;
+
+    function showCourses(index) {
+        const courseContainer = document.getElementById('course-container');
+        const courseWidth = document.querySelector('.course').offsetWidth;
+        courseContainer.style.transform = 'translateX(' + -(courseWidth * index) + 'px)';
+        currentIndex = index;
+    }
+
+    function nextCourse() {
+        const totalCourses = document.querySelectorAll('.course').length;
+        currentIndex = (currentIndex + 1) % totalCourses;
+        showCourses(currentIndex);
+    }
+
+    function prevCourse() {
+        const totalCourses = document.querySelectorAll('.course').length;
+        currentIndex = (currentIndex - 1 + totalCourses) % totalCourses;
+        showCourses(currentIndex);
+    }
+</script>
+
+</body>
+</html>

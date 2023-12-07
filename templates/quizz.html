@@ -1,46 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Quiz</title>
-  </head>
-  <body>
-    <h1>Quiz</h1>
+<head>
+    <title>Add Question</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Counter to keep track of the number of questions
+            var questionCounter = 1;
 
-    <h2>Add a Question</h2>
+            // Function to add a new question and answers
+            function addQuestion() {
+                questionCounter++;
+
+                // Clone the first question and answers
+                var newQuestion = $("#question1").clone();
+
+                // Update the IDs and names to be unique
+                newQuestion.find("label[for^='question_text']").attr("for", "question_text" + questionCounter);
+                newQuestion.find("input[name^='question_text']").attr("id", "question_text" + questionCounter);
+
+                newQuestion.find("label[for^='answer']").each(function () {
+                    var currentFor = $(this).attr("for");
+                    var currentId = $(this).next("input").attr("id");
+                    var newFor = currentFor.replace(/\d+/, questionCounter);
+                    var newId = currentId.replace(/\d+/, questionCounter);
+
+                    $(this).attr("for", newFor);
+                    $(this).next("input").attr("id", newId);
+                });
+
+                // Append the new question and answers to the form
+                $("#question_container").append(newQuestion);
+            }
+
+            // Event handler for the "Add Question" button
+            $("#add_question_btn").click(function (e) {
+                e.preventDefault();
+                addQuestion();
+            });
+        });
+    </script>
+</head>
+<body>
     <form action="/add_question" method="POST">
-      <label for="question_text">Question:</label>
-      <input type="text" id="question_text" name="question_text" required><br><br>
+        <div id="question_container">
+            <label for="question_text1">Question:</label><br>
+            <input type="text" id="question_text1" name="question_text" required><br><br>
 
-      <label for="answer_text">Answers:</label><br>
-      <input type="text" id="answer_text" name="answer_text" required><br>
-      <input type="text" id="answer_text" name="answer_text" required><br>
-      <input type="text" id="answer_text" name="answer_text" required><br>
-      <input type="text" id="answer_text" name="answer_text" required><br><br>
+            <label for="answer1">Answer 1:</label><br>
+            <input type="text" id="answer1" name="answer_text[]" required><br>
 
-      <label for="correct_answer">Correct Answer:</label>
-      <select id="correct_answer" name="correct_answer" required>
-        <option value="0">Answer 1</option>
-        <option value="1">Answer 2</option>
-        <option value="2">Answer 3</option>
-        <option value="3">Answer 4</option>
-      </select><br><br>
+            <label for="answer2">Answer 2:</label><br>
+            <input type="text" id="answer2" name="answer_text[]" required><br>
 
-      <input type="submit" value="Add Question">
+            <label for="answer3">Answer 3:</label><br>
+            <input type="text" id="answer3" name="answer_text[]" required><br>
+
+            <label for="answer4">Answer 4:</label><br>
+            <input type="text" id="answer4" name="answer_text[]" required><br><br>
+
+            <label for="correct_answer">Select the correct answer:</label><br>
+            <select id="correct_answer" name="correct_answer" required>
+                <option value="0">Answer 1</option>
+                <option value="1">Answer 2</option>
+                <option value="2">Answer 3</option>
+                <option value="3">Answer 4</option>
+            </select><br><br>
+        </div>
+
+        <button id="add_question_btn">Add Question</button>
+        <input type="submit" value="Submit">
     </form>
-
-    <h2>Existing Questions:</h2>
-    <ul>
-      {% for question in questions %}
-        <li>
-          <strong>{{ question.question_text }}</strong><br>
-          Answers:
-          <ul>
-            {% for answer in question.answers %}
-              <li>{{ answer.answer_text }} {% if answer.is_correct %}(Correct){% endif %}</li>
-            {% endfor %}
-          </ul>
-        </li>
-      {% endfor %}
-    </ul>
-  </body>
+</body>
 </html>

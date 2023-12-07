@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>DashBoard</title>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://www.w3schools.com/lib/w3.css'>
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css'>
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css'>
+<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.0/fullcalendar.min.css'>
+<link rel='stylesheet' href='//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css'><link rel="stylesheet" href="../static/css/dash.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<body>
+
+<!--  <div id="mySidenav" class="sidenav">-->
+<!--    <a href="javascript:void(0)" class="closebtn" id="closeNav"><i class="fa fa-times" aria-hidden="true"></i></a>-->
+<!--    <h1> Unified Replenishment</h1>-->
+<!--    <a href="#">-->
+<!--      <i class="fa fa-question-circle-o"></i>-->
+<!--      <span class="menu-item-parent">About </span>-->
+<!--    </a>-->
+<!--    <a href="#">-->
+<!--      <i class="fa fa-database"></i>-->
+<!--      <span class="menu-item-parent">Services </span>-->
+<!--    </a>-->
+<!--    <a href="#">-->
+<!--      <i class="fa fa-users"></i>-->
+<!--      <span class="menu-item-parent">Clients </span>-->
+<!--    </a>-->
+<!--    <a href="#">-->
+<!--      <i class="fa fa-at"></i>-->
+<!--      <span class="menu-item-parent">Contact </span>-->
+<!--    </a>-->
+<!--  </div>-->
+<!--  <div class="rightSideNav">-->
+<!--    <nav class="w3-sidenav w3-white w3-card-2 w3-animate-right" style="display:none;right:0;" id="rightMenu">-->
+<!--      <a class="w3-closenav w3-large" id="closeRightButton"> Close<i class="fa fa-times"> </i></a>-->
+<!--      <ul class="list-group">-->
+<!--  <li class="list-group-item">-->
+<!--    <span class="tag tag-default tag-pill pull-xs-right">14 mins ago</span>-->
+<!--   update-->
+<!--  </li>-->
+<!--  <li class="list-group-item">-->
+<!--    <span class="tag tag-default tag-pill pull-xs-right">2 mins ago</span>-->
+<!--    alert-->
+<!--  </li>-->
+<!--  <li class="list-group-item">-->
+<!--    <span class="tag tag-default tag-pill pull-xs-right">1 min ago</span>-->
+<!--   complete -->
+<!--  </li>-->
+<!--</ul>-->
+<!--    </nav>-->
+<!--  </div>-->
+
+
+
+  <div id="main">
+    <div class="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="panel-group" id="accordion">
+          <div class="row top-buffer">
+            <div class="col-lg-12">
+              <div class="buttonGroup" id="top-buttons">
+<!--                <button class="btn btn-secondary" id="openNav"><i class="fa fa-bars" aria-hidden="true"></i></button>-->
+                <h1>hi {{ user_name}}</h1>
+
+
+                <label class="btn btn-primary pull-right">
+                  <input type="checkbox" name="showLog" id="showLog"> latest news
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- row one -->
+          <div class="row top-buffer">
+            <div class="col-lg-5 card-one">
+              <div class="panel-group" id="accordion">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="btn-toolbar pull-right">
+                      <a class="accordion-toggle btn btn-secondary openCard" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> <i class="fa fa-minus"></i></a>
+                      <a href="#" class="goFullScreen btn btn-default btn-xs"><i class="fa fa-expand"></i></a>
+                    </div>
+                    <h1 class="card-title text-center">Your results</h1>
+                  </div>
+                  <div id="collapseOne" class="card-collapse collapse in">
+                    <div class="card-block">
+                      <h1>{{name}}</h1>
+                        <img src="../static/uploads/{{file}}" alt="" style="width:100px;">
+                        <p>{{notes}}</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 card-two">
+              <div class="card">
+                <div class="card-header">
+                  <div class="btn-toolbar pull-right">
+                    <a class="accordion-toggle btn btn-secondary openCard" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><i class="fa fa-minus"></i></a>
+                    <a href="#" class=" goFullScreen btn btn-default btn-xs"><i class="fa fa-expand"></i></a>
+                  </div>
+                  <h1 class="card-title text-center">statistics</h1>
+                </div>
+                <div class="card-block">
+                  <div id="collapseTwo" class="card-collapse collapse in">
+                    <!--                     <div class="ct-chart"></div> -->
+                    <canvas id="myChart"></canvas>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-3">
+              <div id="actionsCard" class="card">
+                <div class="card-header text-xs-center">
+                  <h1>latest News</h1>
+                </div>
+                <div class="card-block text-s-center">
+                  <div class="ui list" id="actions">
+                    {% for n in news %}
+                    <div class="item">
+                      <i class="map marker icon"></i>
+                      <div class="content">
+                        <h4 class="header">{{n.title}}</h4>
+                        <div class="description"> {{ n.des}}</div>
+                      </div>
+                    </div>
+                    {% endfor %}
+
+                  </div>
+                  <div class="ui relaxed divided list" id="alerts">
+                    {% for i in discounts %}
+                    <div class="item">
+                      <i class=" large info icon aligned icon"></i>
+                      <div class="content">
+                        <a class="header">{{i.name}}</a>
+                        <div class="description">{{i.des}}</div>
+                      </div>
+                    </div>
+                    {% endfor %}
+
+                  </div>
+                </div>
+                <div class="card-footer text-center">
+                  <ul class="nav nav-pills card-header-pills center-pills">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="actionsLink">اخر الاخبار </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="alertsLink">الخصومات</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row two -->
+          <div class="row top-buffer row-three">
+            <div class="col-lg-8 col-lg-offset-2 card-four">
+              <div class="panel-group" id="accordion">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="btn-toolbar pull-right">
+                      <a class="accordion-toggle btn btn-secondary openCard" data-toggle="collapse" data-parent="#accordion" href="#collapseFour"> <i class="fa fa-minus"></i></a>
+                      <a href="#" class="goFullScreen btn btn-default btn-xs"><i class="fa fa-expand"></i></a>
+                    </div>
+                    <h1 class="card-title text-center">Calendar</h1>
+                  </div>
+                  <div id="collapseFour" class="card-collapse collapse in">
+                    <div class="card-block">
+
+                      <div class="calendarOne" id="calendarOne"></div>
+
+                      <!--
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- panel group -->
+                    </div>
+                    <!-- container -->
+                  </div>
+                  <!-- page content wrapper -->
+                </div>
+                <!-- main -->
+<script>
+     var toggleChart = function() {
+  var ctx = $('#myChart');
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ labels|tojson }},
+      datasets: [{
+        label: '# of things',
+        data: {{ data|tojson }},
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'height'
+          },
+          ticks: {
+            beginAtZero: true,
+          }
+        }],
+        xAxes: [{
+          scaleLabel:{
+            display:true,
+            labelString: 'Day(s)'
+          }
+        }]
+      }
+    }
+  });
+};
+    </script>
+</body>
+<!-- partial -->
+  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.sticky/1.0.3/jquery.sticky.min.js'></script>
+<script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js'></script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.0/fullcalendar.min.js'></script>
+<script src='//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js'></script><script  src="../static/js/dash.js"></script>
+
+</body>
+</html>

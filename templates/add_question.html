@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Quiz Form</title>
+    <style>
+        .question-form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<form method="post" action="{{ url_for('add_question') }}">
+
+<div id="quiz-container">
+    <!-- Initial form for the first question -->
+    <div class="question-form">
+        <label for="course">Course Name:</label>
+        <input type="text" name="course_name_1" class="course-input">
+
+        <br>
+
+        <label for="question">Question:</label>
+        <input type="text" name="question_1" class="question-input">
+
+        <br>
+
+        <label for="answer1">Answer 1:</label>
+        <input type="text" name="answer_1_1" class="answer-input">
+        <input type="radio" name="correct_answer_1" value="1"> Correct
+
+        <br>
+
+        <label for="answer2">Answer 2:</label>
+        <input type="text" name="answer_1_2" class="answer-input">
+        <input type="radio" name="correct_answer_1" value="2"> Correct
+
+        <br>
+
+        <label for="answer3">Answer 3:</label>
+        <input type="text" name="answer_1_3" class="answer-input">
+        <input type="radio" name="correct_answer_1" value="3"> Correct
+
+        <br>
+
+        <label for="answer4">Answer 4:</label>
+        <input type="text" name="answer_1_4" class="answer-input">
+        <input type="radio" name="correct_answer_1" value="4"> Correct
+
+        <br>
+    </div>
+
+    <!-- Hidden input to store the number of questions -->
+    <input type="hidden" name="num_questions" id="num-questions" value="1">
+
+    <!-- Submit button -->
+
+<!--    <button type="button" onclick="addQuestion()">Add Question</button>-->
+    <button type="submit">Submit</button>
+    <a class="btn btn-outline-white btn-lg mb-0 me-3" target="_blank" href="/teacher_profile"> return to profile</a>
+</div>
+</form>
+
+<!--<script>-->
+<!--function addQuestion() {-->
+<!--    // Clone the last question form (assuming the last one is the most recent)-->
+<!--    const originalForms = document.querySelectorAll('.question-form');-->
+<!--    const lastForm = originalForms[originalForms.length - 1];-->
+<!--    const clone = lastForm.cloneNode(true);-->
+
+<!--    // Increment the question count for unique names-->
+<!--    const questionCount = originalForms.length + 1;-->
+
+<!--    // Update names for the cloned form-->
+<!--    clone.querySelector('.course-input').name = `course_name_${questionCount}`;-->
+<!--    clone.querySelector('.question-input').name = `question_${questionCount}`;-->
+
+<!--    // Update names for answer inputs-->
+<!--    const answerInputs = clone.querySelectorAll('.answer-input');-->
+<!--    answerInputs.forEach((answerInput, index) => {-->
+<!--        answerInput.name = `answer_${questionCount}_${index + 1}`;-->
+<!--    });-->
+
+<!--    // Update names for correct answer radios-->
+<!--    const correctAnswerRadios = clone.querySelectorAll('input[name^="correct_answer"]');-->
+<!--    correctAnswerRadios.forEach(radio => {-->
+<!--        radio.name = `correct_answer_${questionCount}`;-->
+<!--    });-->
+
+<!--    // Clear the input values in the cloned form-->
+<!--    const inputs = clone.querySelectorAll('input');-->
+<!--    inputs.forEach(input => input.value = '');-->
+
+<!--    // Uncheck radio buttons in the cloned form-->
+<!--    const radioButtons = clone.querySelectorAll('input[type="radio"]');-->
+<!--    radioButtons.forEach(radio => radio.checked = false);-->
+
+<!--    // Append the cloned form to the quiz container-->
+<!--    document.getElementById('quiz-container').appendChild(clone);-->
+
+<!--    // Update the number of questions in the hidden input-->
+<!--    const numQuestionsInput = document.getElementById('num-questions');-->
+<!--    numQuestionsInput.value = questionCount;-->
+<!--}-->
+<!--</script>-->
+
+</body>
+</html>

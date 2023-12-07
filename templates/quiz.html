@@ -1,22 +1,31 @@
-<!-- quiz.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Quiz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course_name }} Quiz</title>
 </head>
 <body>
 
+<h1>{{ course_name }} Quiz</h1>
 
-   <form action="/quiz" method="POST">
-        {% for question in questions %}
-            <h3>{{ question.question_text }}</h3>
-            <p>Course: {{ question.course_name }}</p>
-            {% for answer in question.answers %}
-                <input type="checkbox" id="{{ answer.id }}" name="{{ answer.id }}">
-                <label for="{{ answer.id }}">{{ answer.answer_text }}</label>
-            {% endfor %}
-        {% endfor %}
-        <button type="submit">Submit Quiz</button>
-    </form>
+<form method="post" action="{{ url_for('quiz', course_name=course_name) }}">
+    {% for question in questions %}
+        <div>
+            <p>{{ question.question_text }}</p>
+            <ul>
+                {% for answer in question.answers %}
+                    <li>
+                        <input type="radio" name="question_{{ question.id }}" value="{{ answer.answer_text }}">
+                        {{ answer.answer_text }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+
+    <button type="submit">Submit Quiz</button>
+</form>
+
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Course</title>
+</head>
+<body>
+    <h1>Purchase Course</h1>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.user_name.label }}
+            {{ form.user_name }}
+        </div>
+        <div>
+            {{ form.user_phone.label }}
+            {{ form.user_phone }}
+        </div>
+        <div>
+            {{ form.submit }}
+        </div>
+    </form>
+</body>
+</html>

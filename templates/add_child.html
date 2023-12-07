@@ -21,17 +21,26 @@
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
-                        <h2 class="form-title">Login</h2>
-                        <form method="post" action="{{ url_for('add_child') }}" class="register-form" id="register-form">
-                            <div class="form-group">
-                                <label for="phone"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="text" name="phone" id="phone" placeholder="Your phone Number" required>
-                            </div>
+                        <h2 class="form-title">add child</h2>
+                        <form method="post" action="{{ url_for('add') }}" class="register-form" id="register-form">
+
 
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="text" name="child_name" id="name" placeholder="Child's Name" required>
                             </div>
+                            <div class="form-group">
+                                <label for="phone"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="text" name="phone" id="phone" placeholder="Child's phone Number" required>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="password" placeholder=" Child's Password" required>
+                            </div>
+
 
 <!--                            <div class="form-group">-->
 <!--                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />-->

@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Argon - Courses</title>
+    <title>Argon - My Students</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -33,89 +34,65 @@
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
             <a href="/" class="navbar-brand ml-lg-3">
-                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Argon</h1>
+                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Argoun</h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mx-auto py-0">
-                    <a href="/profile" class="nav-item nav-link">profile</a>
-                    <a href="/contact" class="nav-item nav-link">Contact</a>
-                </div>
+                    <a href="/" class="nav-item nav-link">Home</a>
+                    <a href="/child_pro" class="nav-item nav-link">profile</a>
 
-            </div>
         </nav>
     </div>
     <!-- Navbar End -->
 
 
-    <!-- Header Start -->
-    <div class="jumbotron jumbotron-fluid page-header position-relative overlay-bottom" style="margin-bottom: 90px;">
-        <div class="container text-center py-5">
-            <h1 class="text-white display-1">Courses</h1>
 
+
+
+<!-- Admin Dashboard Section -->
+<!-- Admin Dashboard Section -->
+<section id="admin-dashboard" class="py-5">
+    <div class="container">
+    <h2 class="text-center mb-4">Students</h2>
+
+    <!-- Display Pending Teacher Requests -->
+    <div class="card">
+        <div class="card-body">
+            <ul class="list-group">
+                {% for student in my_students %}
+                 <li class="list-group-item d-flex justify-content-between align-items-center">
+                     <h1>{{student.user_name}}</h1>
+
+
+                    </li>
+
+
+
+
+                {% endfor %}
+            </ul>
         </div>
     </div>
-    <!-- Header End -->
+</div>
 
 
-    <!-- Courses Start -->
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <div class="row mx-0 justify-content-center">
-                <div class="col-lg-8">
-                    <div class="section-title text-center position-relative mb-5">
-                        <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Our Courses</h6>
-                        <h1 class="display-4">Checkout New Releases Of Our Courses</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 pb-4">
-{% block content %}
-   <div class="container">
-       <h2>Welcome, {{ user_name }}!</h2>
-       <p>Your Phone: {{ user_phone }}</p>
 
-       <h3>All Courses</h3>
-       <div class="courses-list">
-           {% for course in my_courses %}
-               <a class="courses-list-item position-relative d-block overflow-hidden mb-2" href="/my_course_detail/{{ course.id }}">
-                   <img class="img-fluid" src="../static/img/courses-1.jpg" alt="">
-                   <div class="courses-text">
-                       <h4 class="text-center text-white px-3">{{ course.course_name }}</h4>
-                       <div class="border-top w-100 mt-3">
-                           <div class="d-flex justify-content-between p-4">
-                               <span class="text-white"><i class="fa fa-user mr-2"></i>{{ course.teacher_name }}</span>
-                               <span class="text-white"><i class="fa fa-user mr-2"></i>{{ course.id }}</span>
-                               <span class="text-white"><i class="fa fa-star mr-2"></i>{{ course.course_price }}
-                                   <small>(250)</small></span>
-                           </div>
-                       </div>
-                   </div>
-               </a>
-           {% endfor %}
-       </div>
-   </div>
-{% endblock %}
 
-            </div>
-        </div>
-    </div>
-    <!-- Courses End -->
+
 
 
     <!-- Footer Start -->
     <div class="container-fluid position-relative overlay-top bg-dark text-white-50 py-5" style="margin-top: 90px;">
         <div class="container mt-5 pt-5">
             <div class="row">
-                <div class="col-md-8 mb-5">
+                <div class="col-md-6 mb-5">
 <!--                    <a href="index.html" class="navbar-brand">-->
-<!--                        <h1 class="mt-n2 text-uppercase text-white"><i class="fa fa-book-reader mr-3"></i>MADE BY : AHMED & SOHILA </h1>-->
+<!--                        <h1 class="mt-n2 text-uppercase text-white"><i class="fa fa-book-reader mr-3"></i>Edukate</h1>-->
 <!--                    </a>-->
-
-<!--                    <p class="m-0">PROGRAMING TEAM             </p>-->
+<!--                    <p class="m-0">Accusam nonumy clita sed rebum kasd eirmod elitr. Ipsum ea lorem at et diam est, tempor rebum ipsum sit ea tempor stet et consetetur dolores. Justo stet diam ipsum lorem vero clita diam</p>-->
 <!--                </div>-->
 <!--                <div class="col-md-6 mb-5">-->
 <!--                    <h3 class="text-white mb-4">Newsletter</h3>-->
@@ -183,19 +160,7 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary rounded-0 btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../static/js/main.js"></script>
 </body>
 
 </html>

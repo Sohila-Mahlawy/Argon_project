@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<li class="nav-item d-flex align-items-center">
+        <a class="btn btn-outline-white btn-lg mb-0 me-3" target="_blank" href="/profile">dad</a>
+    </li>
+<li class="nav-item d-flex align-items-center">
+         {% for child in my_children %}
+                  <a href="/child_profile/{{ child.id }}"><button type="button">{{ child.name }}</button></a>
+                  {% endfor %}
+    </li>
+</body>
+</html>
